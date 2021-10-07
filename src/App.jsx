@@ -8,7 +8,7 @@ function App() {
   return (
     <>
     <header>
-      <h1>Pomodoro Productivity Clock!!!</h1>
+      <h1>Pomodoro Productivity Clock</h1>
       <p>Break up your work sessions with short breaks to increase concentration!</p>
     </header>
       <Labels/>
