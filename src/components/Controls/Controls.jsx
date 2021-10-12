@@ -1,78 +1,91 @@
-import { useRef } from "react";
 import styles from "./controls.module.scss"
 
 function Controls(props) {
-  const {counter, setCounter} = props;
-  const timer = useRef(null);
+  const {counter, setCounter, currentTime, setCurrentTime, sessionTime, setSessionTime, breakTime, setBreakTime, counterName, setCounterName, setStatus, status} = props;
 
   const handleReset = () =>{
-    // any running timer should be stopped
-    // value withing #break-length should return to 5
-    // value withing #session-length should return to 25
-    // #time-left should reset to default
+    console.log("reset")
+    setCounter(0);
+    setCurrentTime(25*60);
+    setSessionTime(25);
+    setBreakTime(5);
+    setCounterName("session");
+    setStatus("paused")
 
     // audio element #beep must stop playing and be rewound to beginning
   }
 
-  const handleDecrement = () => {
-    // break decrement: value in #break-length decreases by 1
-    // session decrement: value in #session-length decreases by 1
-
-    // cannot set to <= 0
+  const handleSessionDecrement = () => {
+    if (sessionTime - 1 > 0){
+      if (counterName == "session"){
+        setSessionTime(sessionTime - 1);
+        setCurrentTime((sessionTime - 1) * 60)
+      } else {
+        setSessionTime(sessionTime - 1)
+      }
+    } else {
+      console.log("can't decrement")
+    }
   }
-
-  const handleIncrement = () => {
-    // break increment: value in #break-length increases by 1
-    // session increment: value in #session-length increases by 1
-
-    // cannot set > 60
+  const handleBreakDecrement = () => {
+    if (breakTime - 1 > 0){
+      if (counterName == "break"){
+        setBreakTime(breakTime - 1);
+        setCurrentTime((breakTime - 1) * 60)
+      } else {
+        setBreakTime(breakTime - 1)
+      }
+    } else {
+      console.log("can't decrement")
+    }
+  }
+  const handleSessionIncrement = () => {
+    if (sessionTime + 1 <= 60){
+      if (counterName == "session"){
+        setSessionTime(sessionTime + 1);
+        setCurrentTime((sessionTime + 1) * 60)
+      } else {
+        setSessionTime(sessionTime + 1)
+      }
+    }
+  }
+  const handleBreakIncrement = () => {
+    if (breakTime + 1 <= 60){
+      if (counterName == "break"){
+        setBreakTime(breakTime + 1);
+        setCurrentTime((breakTime + 1) * 60)
+      } else {
+        setBreakTime(breakTime + 1)
+      }
+    }
   }
 
   const handleStartStop = () => {
-    if (timer.current) {
-      clearInterval(timer.current);
-      timer.current = null;
+    if (counter > 0) {
       console.log("pause!")
-    } else if (!counter){
-      resetTimer();
+      setCounter(0);
+      setStatus("paused")
     } else {
-      loopTimer();
-      console.log("start!")
+      console.log("resume!")
+      setCounter(currentTime)
+      setStatus("counting")
     }
-    // the first click plays the timer from #session-length
-    // if timer is running, the timer pauses
-    // if paused, the timer resumes from where it left off
-  }
-
-  const loopTimer = () => {
-    timer.current = setInterval(() => {
-      console.log("counter", counter)
-      setCounter(prev => prev-1);
-      if (0 >= counter) {
-        //pause
-        console.log("pause?")
-        return
-      }
-    }, 1000)
-  }
-
-  const resetTimer = () => {
-    console.log("reset to session length I think")
-    setCounter(25);
-    loopTimer();
   }
 
   return (
     <div className={styles.root}>
-      <button id="break-decrement" onClick={handleDecrement}>break decrement</button>
-      <button id="session-decrement" onClick={handleDecrement}>session decrement</button>
-      <button id="break-increment" onClick={handleIncrement}>break increment</button>
-      <button id="session-increment" onClick={handleIncrement}>session increment</button>
-
-      <p>{counter}</p>
-
-      <button id="start_stop" onClick={handleStartStop}>{"start / stop"}</button>
-      <button id="reset" onClick={handleReset}>Reset</button>
+      <div>
+        <button id="break-decrement" onClick={handleBreakDecrement}>▼ break decrement</button>
+        <button id="break-increment" onClick={handleBreakIncrement}>▲ break increment</button>
+      </div>
+      <div>
+        <button id="session-decrement" onClick={handleSessionDecrement}>▼ session decrement</button>
+        <button id="session-increment" onClick={handleSessionIncrement}>▲ session increment</button>
+      </div>
+      <div>
+        <button id="start_stop" onClick={handleStartStop}>{status == "paused" ? "Start" : "Pause"}</button>
+        <button id="reset" onClick={handleReset}>Reset</button>
+      </div>
       
     </div>
   )

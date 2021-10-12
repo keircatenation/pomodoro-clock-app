@@ -1,15 +1,14 @@
 .root{
-    background-color: burlywood;
+    padding:1rem;
     span{
-        color: rebeccapurple;
+        color: aliceblue;
     }
-    div{
-        background-color: cadetblue;
-        border:1px solid cadetblue;
+    div:first-child{
+        background-color: rebeccapurple;
+        border:1px solid rebeccapurple;
         border-radius: 100%;
         width: 200px;
         height:200px;
-        padding:.5rem;
         position: relative;
         span{
             position: absolute;
@@ -18,10 +17,28 @@
         span:first-child{
             top:50px;
             font-weight: bold;
-            font-size: 1.5rem;
+            font-size: 3rem;
+            width: 100%;
         }
         span:last-child{
             bottom:50px;
+            width:100%;
+            text-transform: uppercase;
+            font-size: 1.5rem;
+        }
+    }
+    div{
+        display: flex;
+        flex-direction: row;
+        margin:0 auto;
+        justify-content: center;
+    }
+    label{
+        margin:1rem;
+        font-size: 1.5rem;
+        span{
+            color: rebeccapurple;
+            font-weight: bold;
         }
     }
 }
