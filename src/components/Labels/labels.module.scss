@@ -1,5 +1,27 @@
 .root{
+    background-color: burlywood;
     span{
-        font-weight: bold;
+        color: rebeccapurple;
+    }
+    div{
+        background-color: cadetblue;
+        border:1px solid cadetblue;
+        border-radius: 100%;
+        width: 200px;
+        height:200px;
+        padding:.5rem;
+        position: relative;
+        span{
+            position: absolute;
+            text-align: center;
+        }
+        span:first-child{
+            top:50px;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+        span:last-child{
+            bottom:50px;
+        }
     }
 }

@@ -1,7 +1,8 @@
-import { useState } from 'react'
 import styles from "./labels.module.scss"
 
-function Labels() {
+function Labels(props) {
+  const {counterName} = props;
+  
 
   return (
     <div className={styles.root}>
@@ -11,8 +12,10 @@ function Labels() {
       <span id="break-length">{"break length var here!"}</span>
       <span id="session-length">{"session length var here!"}</span>
 
-      <span id="timer-label">{"string: either session or break, based on what timer is running"}</span>
-      <span id="time-left">{"string in MM:SS format that displays how much time is left"}</span>
+      <div id="timer">
+        <span id="time-left">{"MM:SS: how much time is left"}</span>
+        <span id="timer-label">{counterName}</span>
+      </div>
       
     </div>
   )
