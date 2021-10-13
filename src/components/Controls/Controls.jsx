@@ -15,25 +15,27 @@ function Controls(props) {
     // audio element #beep must stop playing and be rewound to beginning
   }
 
-  const handleSessionDecrement = () => {
-    if (sessionTime - 1 > 0){
-      if (counterName == "session"){
-        setSessionTime(sessionTime - 1);
-        setCurrentTime((sessionTime - 1) * 60)
-      } else {
-        setSessionTime(sessionTime - 1)
-      }
-    } else {
-      console.log("can't decrement")
-    }
-  }
   const handleBreakDecrement = () => {
     if (breakTime - 1 > 0){
       if (counterName == "break"){
         setBreakTime(breakTime - 1);
         setCurrentTime((breakTime - 1) * 60)
+        setCounter((breakTime - 1) * 60)
       } else {
         setBreakTime(breakTime - 1)
+      }
+    } else {
+      console.log("can't decrement")
+    }
+  }
+  const handleSessionDecrement = () => {
+    if (sessionTime - 1 > 0){
+      if (counterName == "session"){
+        setSessionTime(sessionTime - 1);
+        setCurrentTime((sessionTime - 1) * 60)
+        setCounter((sessionTime - 1) * 60)
+      } else {
+        setSessionTime(sessionTime - 1)
       }
     } else {
       console.log("can't decrement")
@@ -44,6 +46,7 @@ function Controls(props) {
       if (counterName == "session"){
         setSessionTime(sessionTime + 1);
         setCurrentTime((sessionTime + 1) * 60)
+        setCounter((sessionTime + 1) * 60)
       } else {
         setSessionTime(sessionTime + 1)
       }
@@ -54,6 +57,7 @@ function Controls(props) {
       if (counterName == "break"){
         setBreakTime(breakTime + 1);
         setCurrentTime((breakTime + 1) * 60)
+        setCounter((breakTime + 1) * 60)
       } else {
         setBreakTime(breakTime + 1)
       }
