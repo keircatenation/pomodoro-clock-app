@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import './App.css'
 import Controls from './components/Controls/Controls'
 import Labels from './components/Labels/Labels'
