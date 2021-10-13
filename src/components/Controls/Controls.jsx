@@ -1,95 +1,115 @@
 import styles from "./controls.module.scss"
 
 function Controls(props) {
-  const {counter, setCounter, currentTime, setCurrentTime, sessionTime, setSessionTime, breakTime, setBreakTime, counterName, setCounterName, setStatus, status} = props;
+  const {setCounter, sessionTime, setSessionTime, breakTime, setBreakTime, counterName, setCounterName, setStatus, status, beep} = props;
 
   const handleReset = () =>{
     console.log("reset")
-    setCounter(0);
-    setCurrentTime(25*60);
+    setCounter(25*60);
     setSessionTime(25);
     setBreakTime(5);
     setCounterName("session");
     setStatus("paused")
-
-    // audio element #beep must stop playing and be rewound to beginning
-  }
-
-  const handleBreakDecrement = () => {
-    if (breakTime - 1 > 0){
-      if (counterName == "break"){
-        setBreakTime(breakTime - 1);
-        setCurrentTime((breakTime - 1) * 60)
-        setCounter((breakTime - 1) * 60)
-      } else {
-        setBreakTime(breakTime - 1)
-      }
-    } else {
-      console.log("can't decrement")
-    }
-  }
-  const handleSessionDecrement = () => {
-    if (sessionTime - 1 > 0){
-      if (counterName == "session"){
-        setSessionTime(sessionTime - 1);
-        setCurrentTime((sessionTime - 1) * 60)
-        setCounter((sessionTime - 1) * 60)
-      } else {
-        setSessionTime(sessionTime - 1)
-      }
-    } else {
-      console.log("can't decrement")
-    }
-  }
-  const handleSessionIncrement = () => {
-    if (sessionTime + 1 <= 60){
-      if (counterName == "session"){
-        setSessionTime(sessionTime + 1);
-        setCurrentTime((sessionTime + 1) * 60)
-        setCounter((sessionTime + 1) * 60)
-      } else {
-        setSessionTime(sessionTime + 1)
-      }
-    }
-  }
-  const handleBreakIncrement = () => {
-    if (breakTime + 1 <= 60){
-      if (counterName == "break"){
-        setBreakTime(breakTime + 1);
-        setCurrentTime((breakTime + 1) * 60)
-        setCounter((breakTime + 1) * 60)
-      } else {
-        setBreakTime(breakTime + 1)
-      }
-    }
+    beep.pause();
+    beep.currentTime = 0;
   }
 
   const handleStartStop = () => {
-    if (counter > 0) {
+    if (status=="counting") {
       console.log("pause!")
-      setCounter(0);
       setStatus("paused")
     } else {
       console.log("resume!")
-      setCounter(currentTime)
       setStatus("counting")
+    }
+  }
+
+  const handleBreak = (e) => {
+    if (counterName == "break"){
+      switch (e.target.id){
+        case "break-increment":
+          if (breakTime + 1 <= 60){
+            setBreakTime(breakTime + 1);
+            setCounter((breakTime + 1) * 60);
+          }
+          break
+        case "break-decrement":
+          if (breakTime - 1 > 0){
+            setBreakTime(breakTime - 1);
+            setCounter((breakTime - 1) * 60)
+          }
+          break
+        default:
+          console.log("error whoops")
+          break
+      }
+    } else {
+      switch (e.target.id){
+        case "break-increment":
+          if (breakTime + 1 <= 60){
+            setBreakTime(breakTime + 1);
+          }
+          break
+        case "break-decrement":
+          if (breakTime - 1 > 0){
+            setBreakTime(breakTime - 1);
+          }
+          break
+        default:
+          console.log("whoops, error")
+      }
+    }
+  }
+  const handleSession = (e) => {
+    if (counterName == "session"){
+      switch (e.target.id){
+        case "session-increment":
+          if (sessionTime + 1 <= 60){
+            setSessionTime(sessionTime + 1);
+            setCounter((sessionTime + 1) * 60);
+          }
+          break
+        case "session-decrement":
+          if (sessionTime - 1 > 0){
+            setSessionTime(sessionTime - 1);
+            setCounter((sessionTime - 1) * 60)
+          }
+          break
+        default:
+          console.log("error whoops")
+          break
+      }
+    } else {
+      switch (e.target.id){
+        case "session-increment":
+          if (sessionTime + 1 <= 60){
+            setSessionTime(sessionTime + 1);
+          }
+          break
+        case "session-decrement":
+          if (sessionTime - 1 > 0){
+            setSessionTime(sessionTime - 1);
+          }
+          break
+        default:
+          console.log("whoops, error")
+      }
     }
   }
 
   return (
     <div className={styles.root}>
       <div>
-        <button id="break-decrement" onClick={handleBreakDecrement}>▼ break decrement</button>
-        <button id="break-increment" onClick={handleBreakIncrement}>▲ break increment</button>
-      </div>
-      <div>
-        <button id="session-decrement" onClick={handleSessionDecrement}>▼ session decrement</button>
-        <button id="session-increment" onClick={handleSessionIncrement}>▲ session increment</button>
-      </div>
-      <div>
         <button id="start_stop" onClick={handleStartStop}>{status == "paused" ? "Start" : "Pause"}</button>
         <button id="reset" onClick={handleReset}>Reset</button>
       </div>
+      <div>
+        <button id="break-decrement" onClick={handleBreak}>▼ break decrement</button>
+        <button id="break-increment" onClick={handleBreak}>▲ break increment</button>
+        <button id="session-decrement" onClick={handleSession}>▼ session decrement</button>
+        <button id="session-increment" onClick={handleSession}>▲ session increment</button>
+      </div>
+      
       
     </div>
   )

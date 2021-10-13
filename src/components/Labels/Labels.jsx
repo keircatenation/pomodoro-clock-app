@@ -1,11 +1,11 @@
 import styles from "./labels.module.scss"
 
 function Labels(props) {
-  const {counterName, currentTime, breakTime, sessionTime} = props;
+  const {counterName, counter, breakTime, sessionTime} = props;
 
-  const displayMinutes = currentTime/60 >= 1? Math.floor(currentTime/60) >= 10? Math.floor(currentTime/60) :`0${Math.floor(currentTime/60)}` : "00";
+  const displayMinutes = counter/60 >= 1? Math.floor(counter/60) >= 10? Math.floor(counter/60) :`0${Math.floor(counter/60)}` : "00";
 
-  const displaySeconds = currentTime % 60 >= 10 ? currentTime % 60 : currentTime%60 > 0? `0${currentTime%60}` : "00";
+  const displaySeconds = counter % 60 >= 10 ? counter % 60 : counter%60 > 0? `0${counter%60}` : "00";
   
 
   return (

@@ -1,47 +1,43 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import './App.css'
 import Controls from './components/Controls/Controls'
 import Labels from './components/Labels/Labels'
 import useInterval from './hooks/useInterval'
 
 function App() {
-  const [counter, setCounter] = useState(0);
-  const [currentTime, setCurrentTime] = useState(25*60);
+  const [counter, setCounter] = useState(25*60);
   const [status, setStatus] = useState("paused")
   const [sessionTime, setSessionTime] = useState(25)
   const [breakTime, setBreakTime] = useState(5)
   const [counterName, setCounterName] = useState("session")
-
-
+  const beep = document.querySelector("#beep");
 
   useInterval(() => {
-    if (counter>0){
-      setCurrentTime(counter-1)
-      setCounter(counter-1)
-    } else if (counter == 0 && status == "counting"){
-      //play the beep and reset to the next thing
-      console.log("done")
-      switch (counterName){
-        case "session":
-          setCounter(breakTime*60);
-          setCurrentTime(breakTime*60);
-          setCounterName("break")
-          break
-        case "break":
-          setCounter(sessionTime*60);
-          setCurrentTime(sessionTime*60);
-          setCounterName("session")
-          break
-        default:
-          console.log("an error occurred")
-          break
+    if (status == "counting"){
+      if (counter>0){
+        setCounter(counter-1)
+        if (counter <= 1){
+          console.log("beep")
+          beep.play();
+        }
+      } else if (counter == 0){
+        console.log("done")
+        switch (counterName){
+          case "session":
+            setCounter(breakTime*60);
+            setCounterName("break")
+            break
+          case "break":
+            setCounter(sessionTime*60);
+            setCounterName("session")
+            break
+          default:
+            console.log("an error occurred")
+            break
+        }
       }
     }
   }, 1000)
-
-  // when any countdown reaches 00:00, a sound indicating time up plays, using a HTML5 sudio element and a "beep" id, which must be 1 second or longer
-
-
 
   return (
     <>
@@ -51,16 +47,13 @@ function App() {
       </header>
       <Labels
         counterName={counterName}
-        currentTime={currentTime}
+        counter={counter}
         breakTime={breakTime}
         sessionTime={sessionTime}
       />
 
       <Controls
-        counter={counter}
         setCounter={setCounter}
-        currentTime={currentTime}
-        setCurrentTime={setCurrentTime}
         sessionTime={sessionTime}
         setSessionTime={setSessionTime}
         breakTime={breakTime}
@@ -69,7 +62,10 @@ function App() {
         setCounterName={setCounterName}
         status={status}
         setStatus={setStatus}
+        beep={beep}
       />
+
+      <audio id="beep" src="/src/resources/renatalmar_SFX-Magic.mp3" alt="SFX Magic by renatalmar https://freesound.org/people/renatalmar/sounds/264981/"/>
     </>
   )
 }

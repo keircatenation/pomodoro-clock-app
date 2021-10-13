@@ -1,8 +1,8 @@
 # Resources and Thoughts on Progress
 
 ## Resources
-For the timer: [a StackOverflow post about making timers with pause functions](https://stackoverflow.com/questions/45522240/js-countdown-timer-pause-function)
-useInterval hook: [Jamie's hooks-todo demo app](https://github.com/JamieVaughn/hooks-todo/tree/main/src/hooks)
+ - For the timer: [a StackOverflow post about making timers with pause functions](https://stackoverflow.com/questions/45522240/js-countdown-timer-pause-function)
+ - useInterval hook: [Jamie's hooks-todo demo app](https://github.com/JamieVaughn/hooks-todo/tree/main/src/hooks)
 
 ## Thoughts
 
@@ -22,3 +22,11 @@ The `Controls` component was more complex, necessitated by the controls aspect! 
 The `handleStartStop` function is actually simpler here than it was in my original countdown basis, since I just need to set the counter and set the status of the counter, instead of creating/destroying the `setInterval`. The `handleReset` is likewise simple - it resets everything to the default values, stops the counter, and changes the status to "paused" (something I forgot to do at first until I started checking the FCC tests!).
 
 I still need to hook up the beeping sound, but after playin with playing sounds for the Drumkit project I think that will be fairly simple to do.
+
+### 13 Oct 2021
+
+Hooked up the audio element and the beeping! Debated using a useRef hook to point at the audio element, but I don't think that's necessary, considering that I'm just playing it and not changing the information in it. I had to call `beep.play()` a little before `counter` reached zero, so it's playing *when* the `counter` reaches zero, but that's on the timing side rather than anything else.
+
+Decided to get rid of the `currentTime` variable, because I realized that the counter stored the same exact information (except when I paused the counter). I rewrote the `useInterval` function so that it only decrements the counter while `status == "counting"`, so that when I start and pause the app I'm just setting the `status` instead of setting and resetting the `counter`.
+
+I decided to bundle the `handleBreak`/`handleSession` functions together into two functions. I'm not convinced this is the most elegant final solution, since there's a lot of repetitive code going on, but I think it does the job.
