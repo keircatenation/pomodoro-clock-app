@@ -65,7 +65,7 @@ function App() {
         beep={beep}
       />
 
-      <audio id="beep" src="/src/resources/renatalmar_SFX-Magic.mp3" alt="SFX Magic by renatalmar https://freesound.org/people/renatalmar/sounds/264981/"/>
+      <audio id="beep" src="./assets/renatalmar_SFX-Magic.mp3" alt="SFX Magic by renatalmar https://freesound.org/people/renatalmar/sounds/264981/"/>
     </>
   )
 }
